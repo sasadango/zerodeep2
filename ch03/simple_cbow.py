@@ -1,6 +1,6 @@
 import sys
 sys.path.append('..')
-import numpy as numpy
+import numpy as np
 from common.layers import MatMul, SoftmaxWithLoss
 
 
@@ -27,3 +27,19 @@ class SimpleCBOW:
 
         # メンバ変数に単語の分散表現を設定
         self.word_vecs = W_in
+
+    def forward(self, contexts, target):
+        h0 = self.in_layer0.forward(contexts[:,0])
+        h1 = self.in_layer1.forward(contexts[:,1])
+        h = (h0 + h1) * 0.5
+        score = self.out_layer.forward(h)
+        loss = self.loss_layer.forward(score, target)
+        return loss
+
+    def backward(self, dout=1):
+        ds = self.loss_layer.backward(dout)
+        da = self.out_layer.backward(ds)
+        da *= 0.5
+        self.in_layer1.backward(da)
+        self.in_layer0.backward(da)
+        return None
