@@ -3,6 +3,15 @@ sys.path.append('..')
 from common.np import * # import numpy as np
 
 
+class Trainer:
+    def __init__(self, model, optimizer):
+        self.model = model
+        self.optimizer = optimizer
+        self.loss_list = []
+        self.eval_interval = None
+        self.current_epoch = 0
+
+
 def remove_duplicate(params, grads):
     '''
     パラメータ配列中の重複する重みをひとつに集約し、
