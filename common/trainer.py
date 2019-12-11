@@ -42,7 +42,7 @@ class Trainer:
                 total_loss += loss
                 loss_count += 1
 
-                if (eval_interval is not None) and (iter % eval_interval) == 0:
+                if (eval_interval is not None) and (iters % eval_interval) == 0:
                     avg_loss = total_loss / loss_count
                     elapsed_time = time.time() - start_time
                     print('| epoch %d | iter %d / %d | time %d[s] | loss %.2f'
@@ -57,7 +57,7 @@ class Trainer:
         if ylim is not None:
             plt.ylim(*ylim)
         plt.plot(x, self.loss_list, label='train')
-        plt.xlabel('iterations (x' + str(self.evel_interval) + ')')
+        plt.xlabel('iterations (x' + str(self.eval_interval) + ')')
         plt.ylabel('loss')
         plt.show()
 

@@ -42,7 +42,7 @@ def convert_one_hot(corpus, vocab_size):
             for idx_1, word_id in enumerate(word_ids):
                 one_hot[idx_0, idx_1, word_id] = 1
 
-        return one_hot
+    return one_hot
 
 
 def create_contexts_target(corpus, window_size=1):
