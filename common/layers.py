@@ -53,7 +53,7 @@ class Embedding:
         self.grads = [np.zeros_like(W)]
         self.idx = None
 
-    def forword(self, idx):
+    def forward(self, idx):
         W, = self.params
         self.idx = idx
         out = W[idx]
@@ -67,3 +67,4 @@ class Embedding:
         # for i, word_id in enumerate(self.idx):
         #     dW[word_id] += dout[i]
         return None
+
