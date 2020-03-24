@@ -29,3 +29,18 @@ class CBOW:
 
         # メンバ変数に単語の分散表現を設定
         self.word_vecs = W_in
+
+    def forward(self, contexts, target):
+        h = 0
+        for i, layer in enumerate(self.in_layers):
+            h += layer.forward(contexts[:,i])
+        h *= 1 / len(self.in_layers)
+        loss = self.ns_loss.forward(h, target)
+        return loss
+
+    def backword(self, dout=1):
+        dout = self.ns_loss.backword(dout)
+        dout *= 1 / len(self.in_layers)
+        for layer in self.in_layers:
+            layer.backward(dout)
+        return None
