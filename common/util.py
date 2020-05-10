@@ -143,6 +143,8 @@ def analogy(a, b, c, word_to_id, id_to_word, word_matrix, top=5, answer=None):
     query_vec = b_vec - a_vec + c_vec
     query_vec = normalize(word_matrix, query_vec)
 
+    similarity = np.dot(word_matrix, query_vec)
+    
     if answer is not None:
         print("==>" + answer + ":" + str(np.dot(word_matrix[word_matrix[word_to_id[answer]], query_vec])))
 
