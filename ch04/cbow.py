@@ -1,8 +1,8 @@
 import sys
-sys.path.appned('..')
-import numpy as np
+sys.path.append('..')
+from common.np import *
 from common.layers import Embedding
-from ch04.negative_sampling_layer import NegativeSmaplingLoss
+from ch04.negative_sampling_layer import NegativeSamplingLoss
 
 
 class CBOW:
@@ -18,7 +18,7 @@ class CBOW:
         for i in range(2 * window_size):
             layer = Embedding(W_in)   # Embeddingレイヤを使用
             self.in_layers.append(layer)
-        self.ns_loss = NegativeSmaplingLoss(W_out, corpus, power=0.75, sample_size=5)
+        self.ns_loss = NegativeSamplingLoss(W_out, corpus, power=0.75, sample_size=5)
 
         # すべての重みと勾配を配列にまとめる
         layers = self.in_layers + [self.ns_loss]
@@ -33,13 +33,13 @@ class CBOW:
     def forward(self, contexts, target):
         h = 0
         for i, layer in enumerate(self.in_layers):
-            h += layer.forward(contexts[:,i])
+            h += layer.forward(contexts[:, i])
         h *= 1 / len(self.in_layers)
         loss = self.ns_loss.forward(h, target)
         return loss
 
-    def backword(self, dout=1):
-        dout = self.ns_loss.backword(dout)
+    def backward(self, dout=1):
+        dout = self.ns_loss.backward(dout)
         dout *= 1 / len(self.in_layers)
         for layer in self.in_layers:
             layer.backward(dout)

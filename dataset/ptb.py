@@ -58,7 +58,7 @@ def load_vocab():
 
     _download(file_name)
 
-    words = open(file_path).read().replace('\n', '<eos').strip().split()
+    words = open(file_path).read().replace('\n', '<eos>').strip().split()
 
     for i, word in enumerate(words):
         if word not in word_to_id:
@@ -66,10 +66,10 @@ def load_vocab():
             word_to_id[word] = tmp_id
             id_to_word[tmp_id] = word
 
-        with open(vocab_path, 'wb') as f:
-            pickle.dump((word_to_id, id_to_word), f)
+    with open(vocab_path, 'wb') as f:
+        pickle.dump((word_to_id, id_to_word), f)
 
-        return word_to_id, id_to_word
+    return word_to_id, id_to_word
 
 
 def load_data(data_type='train'):
@@ -90,3 +90,13 @@ def load_data(data_type='train'):
     file_path = dataset_dir + '/' + file_name
     _download(file_name)
 
+    words = open(file_path).read().replace('\n', '<eos>').strip().split()
+    corpus = np.array([word_to_id[w] for w in words])
+
+    np.save(save_path, corpus)
+    return corpus, word_to_id, id_to_word
+
+
+if __name__ == '__main__':
+    for data_type in ('train', 'val', 'test'):
+        load_data(data_type)

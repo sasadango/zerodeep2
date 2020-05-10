@@ -61,16 +61,16 @@ class UnigramSampling:
                 p /= p.sum()
                 negative_sample[i, :] = np.random.choice(self.vocab_size, size=self.sample_size, replace=False, p=p)
 
-            else:
-                # GPU(cupy)で計算するときは、速度を優先
-                # 負例にターゲットが含まれるケースがある
-                negative_sample = np.random.choice(self.vocab_size, size=(batch_size, self.sample_size),
-                                                   replace=True, p=self.word_p)
+        else:
+            # GPU(cupy)で計算するときは、速度を優先
+            # 負例にターゲットが含まれるケースがある
+            negative_sample = np.random.choice(self.vocab_size, size=(batch_size, self.sample_size),
+                                                replace=True, p=self.word_p)
 
-            return negative_sample
+        return negative_sample
 
 
-class NegativeSmaplingLoss:
+class NegativeSamplingLoss:
     def __init__(self, W, corpus, power=0.75, sample_size=5):
         self.sample_size = sample_size
         self.sampler = UnigramSampling(corpus, power, sample_size)

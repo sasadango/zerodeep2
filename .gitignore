@@ -22,3 +22,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 .python-version
+
+.vscode
+*.pkl
+*.txt
+*.npy
+*.png
