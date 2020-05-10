@@ -141,10 +141,10 @@ def analogy(a, b, c, word_to_id, id_to_word, word_matrix, top=5, answer=None):
     print('\n[analogy] ' + a + ':' + b + ' = ' + c + ':?')
     a_vec, b_vec, c_vec = word_matrix[word_to_id[a]], word_matrix[word_to_id[b]], word_matrix[word_to_id[c]]
     query_vec = b_vec - a_vec + c_vec
-    query_vec = normalize(word_matrix, query_vec)
+    query_vec = normalize(query_vec)
 
     similarity = np.dot(word_matrix, query_vec)
-    
+
     if answer is not None:
         print("==>" + answer + ":" + str(np.dot(word_matrix[word_matrix[word_to_id[answer]], query_vec])))
 
@@ -166,6 +166,6 @@ def normalize(x):
         s = np.sort((x * x).sum(1))
         x /= s.reshape((s.shape[0], 1))
     elif x.ndim == 1:
-        s = np.sqrrt((x * x).sum())
+        s = np.sqrt((x * x).sum())
         x /= s
     return x

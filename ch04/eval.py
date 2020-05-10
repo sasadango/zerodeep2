@@ -1,6 +1,6 @@
 import sys
 sys.path.append('..')
-from common.util import most_similar
+from common.util import most_similar, analogy
 import pickle
 
 
@@ -16,3 +16,10 @@ querys = ['you', 'year', 'car', 'toyota']
 for query in querys:
     most_similar(query, word_to_id, id_to_word, word_vecs, top=5)
     
+
+# analogy task
+print('-'*50)
+analogy('king', 'man', 'queen', word_to_id, id_to_word, word_vecs)
+analogy('take', 'took', 'go', word_to_id, id_to_word, word_vecs)
+analogy('car', 'cars', 'child', word_to_id, id_to_word, word_vecs)
+analogy('good', 'better', 'bad', word_to_id, id_to_word, word_vecs)
